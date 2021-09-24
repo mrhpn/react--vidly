@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Like from './Like';
+import Like from './common/Like';
 import { getMovies } from '../services/fakeMovieService';
 
 class Movies extends React.Component {
