@@ -7,12 +7,16 @@ const TableBody = ({ data, columns }) => {
     return _.get(item, column.path);
   };
 
+  const createKey = (item, column) => {
+    return item._id + (column.label || column.key);
+  };
+
   return (
     <tbody>
       {data.map((item) => (
         <tr key={item._id}>
           {columns.map((column) => (
-            <td key={column.label || column.key}>{renderCell(item, column)}</td>
+            <td key={createKey(item, column)}>{renderCell(item, column)}</td>
           ))}
         </tr>
       ))}
