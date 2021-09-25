@@ -1,6 +1,5 @@
 import React from 'react';
-import TableHeader from './common/TableHeader';
-import TableBody from './common/TableBody';
+import Table from './common/Table';
 import Like from './common/Like';
 
 const MoviesTable = ({ movies, sortColumn, onLike, onDelete, onSort }) => {
@@ -20,12 +19,7 @@ const MoviesTable = ({ movies, sortColumn, onLike, onDelete, onSort }) => {
     },
   ];
 
-  return (
-    <table className="table my-4">
-      <TableHeader columns={columns} sortColumn={sortColumn} onSort={onSort} />
-      <TableBody data={movies} columns={columns} sortColumn={sortColumn} />
-    </table>
-  );
+  return <Table data={movies} columns={columns} sortColumn={sortColumn} onSort={onSort} />;
 };
 
 export default MoviesTable;
