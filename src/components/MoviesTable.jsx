@@ -23,7 +23,7 @@ const MoviesTable = ({ movies, sortColumn, onLike, onDelete, onSort }) => {
   return (
     <table className="table my-4">
       <TableHeader columns={columns} sortColumn={sortColumn} onSort={onSort} />
-      <TableBody data={movies} columns={columns} />
+      <TableBody data={movies} columns={columns} sortColumn={sortColumn} />
     </table>
   );
 };

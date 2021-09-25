@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 
-const TableBody = ({ data, columns }) => {
+const TableBody = ({ data, columns, sortColumn }) => {
   const renderCell = (item, column) => {
     if (column.content) return column.content(item);
     return _.get(item, column.path);
@@ -20,9 +20,6 @@ const TableBody = ({ data, columns }) => {
           ))}
         </tr>
       ))}
-      <tr>
-        <td></td>
-      </tr>
     </tbody>
   );
 };
