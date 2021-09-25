@@ -1,9 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import _ from 'lodash';
 
-const TableBody = ({ data, columns, sortColumn }) => {
+const TableBody = ({ data, columns }) => {
   const renderCell = (item, column) => {
     if (column.content) return column.content(item);
+
+    if (column.path === 'title') return <Link to={`/movies/${item._id}`}>{item.title}</Link>;
+
     return _.get(item, column.path);
   };
 
