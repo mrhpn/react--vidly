@@ -1,0 +1,48 @@
+import React, { Component } from 'react';
+import Joi from 'joi-browser';
+
+class Form extends React.Component {
+  state = {
+    data: {},
+    errors: {},
+  };
+
+  validate = () => {
+    const options = { abortEarly: false };
+    const { error } = Joi.validate(this.state.data, this.schema, options);
+    if (!error) return null;
+
+    const errors = {};
+    for (let e of error.details) errors[e.path[0]] = e.message;
+    return errors;
+  };
+
+  validateProperty = ({ name, value }) => {
+    const { error } = Joi.validate({ [name]: value }, { [name]: this.schema[name] });
+    return error ? error.details[0].message : null;
+  };
+
+  handleChange = (e) => {
+    const errors = { ...this.state.errors };
+    const errorMessage = this.validateProperty(e.target);
+    if (errorMessage) errors[e.target.name] = errorMessage;
+    else delete errors[e.target.name];
+
+    const data = { ...this.state.data };
+    data[e.target.name] = e.target.value;
+    this.setState({ data, errors });
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+
+    const errors = this.validate();
+    this.setState({ errors: errors || {} });
+    if (errors) return;
+
+    // call server and submit
+    this.doSubmit();
+  };
+}
+
+export default Form;

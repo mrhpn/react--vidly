@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Joi from 'joi-browser';
 
 import Input from './common/Input';
+import Form from './common/form';
 
-class Login extends React.Component {
+class Login extends Form {
   state = {
-    account: { username: '', password: '' },
+    data: { username: '', password: '' },
     errors: {},
   };
 
@@ -14,45 +15,12 @@ class Login extends React.Component {
     password: Joi.string().required().label('Password'),
   };
 
-  validate = () => {
-    const options = { abortEarly: false };
-    const { error } = Joi.validate(this.state.account, this.schema, options);
-    if (!error) return null;
-
-    const errors = {};
-    for (let e of error.details) errors[e.path[0]] = e.message;
-    return errors;
-  };
-
-  validateProperty = ({ name, value }) => {
-    const { error } = Joi.validate({ [name]: value }, { [name]: this.schema[name] });
-    return error ? error.details[0].message : null;
-  };
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-
-    const errors = this.validate();
-    this.setState({ errors: errors || {} });
-    if (errors) return;
-
-    // call server and submit
+  doSubmit = () => {
     console.log('submitted');
   };
 
-  handleChange = (e) => {
-    const errors = { ...this.state.errors };
-    const errorMessage = this.validateProperty(e.target);
-    if (errorMessage) errors[e.target.name] = errorMessage;
-    else delete errors[e.target.name];
-
-    const account = { ...this.state.account };
-    account[e.target.name] = e.target.value;
-    this.setState({ account, errors });
-  };
-
   render() {
-    const { account, errors } = this.state;
+    const { data, errors } = this.state;
 
     return (
       <div className="container">
@@ -60,7 +28,7 @@ class Login extends React.Component {
         <form onSubmit={this.handleSubmit} className="mt-4">
           <Input
             name="username"
-            value={account.username}
+            value={data.username}
             label="Username"
             type="email"
             error={errors.username}
@@ -68,7 +36,7 @@ class Login extends React.Component {
           />
           <Input
             name="password"
-            value={account.password}
+            value={data.password}
             label="Password"
             type="password"
             error={errors.password}
