@@ -28,10 +28,24 @@ class Login extends React.Component {
     console.log('submitted');
   };
 
+  validateProperty = ({ name, value }) => {
+    if (name === 'username') {
+      if (value.trim() === '') return 'Username is required';
+    }
+    if (name === 'password') {
+      if (value.trim() === '') return 'Password is required';
+    }
+  };
+
   handleChange = (e) => {
+    const errors = { ...this.state.errors };
+    const errorMessage = this.validateProperty(e.target);
+    if (errorMessage) errors[e.target.name] = errorMessage;
+    else delete errors[e.target.name];
+
     const account = { ...this.state.account };
     account[e.target.name] = e.target.value;
-    this.setState({ account });
+    this.setState({ account, errors });
   };
 
   render() {
