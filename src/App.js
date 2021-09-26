@@ -9,6 +9,7 @@ import NotFound from './components/notFound';
 import Login from './components/login';
 import LoginFunc from './components/loginFunc';
 import Register from './components/register';
+import MovieForm from './components/movieForm';
 
 import './App.css';
 
@@ -21,7 +22,8 @@ function App() {
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
           {/* <Route path="/login" component={LoginFunc} /> */}
-          <Route path="/movies/:id" component={MovieDetails} />
+          <Route path="/movies/new" exact component={MovieForm} />
+          <Route path="/movies/:id" component={MovieForm} />
           <Route path="/movies" component={Movies} />
           <Route path="/customers" component={Customers} />
           <Route path="/rentals" component={Rentals} />

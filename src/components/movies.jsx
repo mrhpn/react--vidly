@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import _ from 'lodash';
 
 import MoviesTable from './MoviesTable';
@@ -6,7 +7,7 @@ import Pagination from './common/Pagination';
 import ListGroup from './common/ListGroup';
 import { paginate } from '../util/paginate';
 import { getMovies } from '../services/fakeMovieService';
-import { getGenres } from '../services/fakeGenreService';
+import { genres } from '../services/fakeGenreService';
 
 class Movies extends React.Component {
   state = {
@@ -19,8 +20,8 @@ class Movies extends React.Component {
   };
 
   componentDidMount() {
-    const genres = [{ _id: '', name: 'All Genres' }, ...getGenres()];
-    this.setState({ movies: getMovies(), genres });
+    const g = [{ _id: '', name: 'All Genres' }, ...genres];
+    this.setState({ movies: getMovies(), genres: g });
   }
 
   handleDelete = (movie) => {
@@ -84,6 +85,9 @@ class Movies extends React.Component {
           />
         </div>
         <div className="col-9">
+          <Link to="/movies/new" className="btn btn-primary mb-3">
+            New Movie
+          </Link>
           <p>Showing {totalCount} movies in the database.</p>
           <MoviesTable
             movies={movies}
