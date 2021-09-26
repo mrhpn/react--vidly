@@ -24,6 +24,11 @@ class Login extends React.Component {
     return errors;
   };
 
+  validateProperty = ({ name, value }) => {
+    const { error } = Joi.validate({ [name]: value }, { [name]: this.schema[name] });
+    return error ? error.details[0].message : null;
+  };
+
   handleSubmit = (e) => {
     e.preventDefault();
 
@@ -33,15 +38,6 @@ class Login extends React.Component {
 
     // call server and submit
     console.log('submitted');
-  };
-
-  validateProperty = ({ name, value }) => {
-    if (name === 'username') {
-      if (value.trim() === '') return 'Username is required';
-    }
-    if (name === 'password') {
-      if (value.trim() === '') return 'Password is required';
-    }
   };
 
   handleChange = (e) => {
