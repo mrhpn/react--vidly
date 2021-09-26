@@ -14,3 +14,11 @@ code {
 .clickable {
   cursor: pointer;
 }
+
+.nav-link {
+  color: gray;
+}
+
+.active {
+  color: black;
+}

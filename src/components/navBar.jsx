@@ -20,13 +20,13 @@ const NavBar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          <NavLink to="/movies" className="nav-item nav-link" aria-current="page">
+          <NavLink to="/movies" className="nav-item nav-link">
             Movies
           </NavLink>
-          <NavLink to="/customers" className="nav-item nav-link" aria-current="page">
+          <NavLink to="/customers" className="nav-item nav-link">
             Customers
           </NavLink>
-          <NavLink to="/rentals" className="nav-item nav-link" aria-current="page">
+          <NavLink to="/rentals" className="nav-item nav-link">
             Rentals
           </NavLink>
         </div>
