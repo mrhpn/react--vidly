@@ -74,7 +74,7 @@ class Login extends React.Component {
             error={errors.password}
             onChange={this.handleChange}
           />
-          <button type="submit" className="btn btn-primary">
+          <button disabled={this.validate()} type="submit" className="btn btn-primary">
             Login
           </button>
         </form>
