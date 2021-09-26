@@ -8,6 +8,7 @@ import Rentals from './components/rentals';
 import NotFound from './components/notFound';
 import Login from './components/login';
 import LoginFunc from './components/loginFunc';
+import Register from './components/register';
 
 import './App.css';
 
@@ -17,6 +18,7 @@ function App() {
       <NavBar />
       <main className="container mt-5">
         <Switch>
+          <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
           {/* <Route path="/login" component={LoginFunc} /> */}
           <Route path="/movies/:id" component={MovieDetails} />
