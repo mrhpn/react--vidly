@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
@@ -11,7 +11,7 @@ import { paginate } from '../util/paginate';
 import { getMovies, deleteMovie } from '../services/movieService';
 import { getGenres } from '../services/genreService';
 
-class Movies extends React.Component {
+class Movies extends Component {
   state = {
     movies: [],
     genres: [],
@@ -99,6 +99,8 @@ class Movies extends React.Component {
   render() {
     const { length: count } = this.state.movies;
     const { sortColumn, selectedGenre, searchQuery, pageSize, currentPage } = this.state;
+    const { user } = this.props;
+    console.log(user);
 
     if (count === 0) return <p>There are no movies in the database.</p>;
 
@@ -114,9 +116,11 @@ class Movies extends React.Component {
           />
         </div>
         <div className="col-9">
-          <Link to="/movies/new" className="btn btn-primary mb-3">
-            New Movie
-          </Link>
+          {user && (
+            <Link to="/movies/new" className="btn btn-primary mb-3">
+              New Movie
+            </Link>
+          )}
           <p>Showing {totalCount} movies in the database.</p>
           <SearchBox value={searchQuery} onChange={this.handleSearch} />
           <MoviesTable
