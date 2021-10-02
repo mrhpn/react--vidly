@@ -12,7 +12,12 @@ export function getMovie(movieId) {
 }
 
 export function saveMovie(movie) {
-  if (movie.hasOwnProperty('_id')) delete movie._id;
+  if (movie._id) {
+    const body = { ...movie };
+    delete body._id;
+    return http.put(apiEndpoint + '/' + movie._id, body);
+  }
+
   return http.post(apiEndpoint, movie);
 }
 
