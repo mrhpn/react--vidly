@@ -26,5 +26,5 @@ export function deleteMovie(movieId) {
 }
 
 function movieUrl(id) {
-  return `${apiEndpoint}\${id}`;
+  return `${apiEndpoint}/${id}`;
 }
