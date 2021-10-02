@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Joi from 'joi-browser';
 
 import Form from './common/form';
-import { getMovie, getMovies, saveMovie } from '../services/fakeMovieService';
-import { genres, getGenre } from '../services/fakeGenreService';
+import { getMovie, saveMovie } from '../services/movieService';
+import { getGenres } from '../services/genreService';
 
 class MovieForm extends Form {
   state = {
@@ -20,18 +20,20 @@ class MovieForm extends Form {
     dailyRentalRate: Joi.number().min(0).max(10).required().label('Daily Rental Rate'),
   };
 
-  componentDidMount() {
-    const g = genres;
-    this.setState({ genres: g });
+  async componentDidMount() {
+    const { data } = await getGenres();
+    this.setState({ genres: data });
 
     if (this.props.match.path.includes('new')) return;
 
     const movieId = this.props.match.params.id;
-    console.log(movieId, 'hahah---');
-    const movie = getMovie(movieId);
-    if (!movie) return this.props.history.replace('/not-found');
-
-    this.setState({ data: this.mapToViewModel(movie) });
+    try {
+      const { data: movie } = await getMovie(movieId);
+      this.setState({ data: this.mapToViewModel(movie) });
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        return this.props.history.replace('/not-found');
+    }
   }
 
   mapToViewModel = (movie) => {
@@ -44,8 +46,8 @@ class MovieForm extends Form {
     };
   };
 
-  doSubmit = () => {
-    saveMovie(this.state.data);
+  doSubmit = async () => {
+    await saveMovie(this.state.data);
     this.props.history.push('/movies');
   };
 
@@ -58,7 +60,7 @@ class MovieForm extends Form {
           {this.renderSelect('genreId', 'Genre', this.state.genres)}
           {this.renderInput('numberInStock', 'Number In Stock', 'number')}
           {this.renderInput('dailyRentalRate', 'Daily Rental Rate', 'number')}
-          {this.renderButton('Add Movie')}
+          {this.renderButton('Save')}
         </form>
       </div>
     );
