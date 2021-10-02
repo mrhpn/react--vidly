@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router';
 import { ToastContainer } from 'react-toastify';
-import jwtDecode from 'jwt-decode';
 
 import NavBar from './components/navBar';
 import Movies from './components/movies';
@@ -10,8 +9,10 @@ import Rentals from './components/rentals';
 import NotFound from './components/notFound';
 import Login from './components/login';
 import LoginFunc from './components/loginFunc';
+import Logout from './components/logout';
 import Register from './components/register';
 import MovieForm from './components/movieForm';
+import auth from './services/auth';
 
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -20,11 +21,8 @@ class App extends Component {
   state = {};
 
   componentDidMount() {
-    try {
-      const jwt = localStorage.getItem('token');
-      const user = jwtDecode(jwt);
-      this.setState({ user });
-    } catch (ex) {}
+    const user = auth.getCurrentUser();
+    this.setState({ user });
   }
 
   render() {
@@ -36,6 +34,7 @@ class App extends Component {
           <Switch>
             <Route path="/register" component={Register} />
             <Route path="/login" component={Login} />
+            <Route path="/logout" component={Logout} />
             {/* <Route path="/login" component={LoginFunc} /> */}
             <Route path="/movies/new" exact component={MovieForm} />
             <Route path="/movies/:id" component={MovieForm} />
