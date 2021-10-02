@@ -36,7 +36,6 @@ class App extends Component {
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
             {/* <Route path="/login" component={LoginFunc} /> */}
-            <Route path="/movies/new" exact component={MovieForm} />
             <Route path="/movies/:id" component={MovieForm} />
             <Route
               path="/movies"
