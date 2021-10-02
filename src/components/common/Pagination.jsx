@@ -16,7 +16,7 @@ class Pagination extends React.Component {
         <ul className="pagination">
           {paginationItems.map((item) => (
             <li key={item} className={`page-item ${item === currentPage && 'active'}`}>
-              <a onClick={() => onPageChange(item)} className="page-link inline">
+              <a href onClick={() => onPageChange(item)} className="page-link inline">
                 {item}
               </a>
             </li>

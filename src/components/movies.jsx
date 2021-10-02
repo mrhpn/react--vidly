@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
 
@@ -97,7 +97,6 @@ class Movies extends Component {
   };
 
   render() {
-    const { length: count } = this.state.movies;
     const { sortColumn, selectedGenre, searchQuery, pageSize, currentPage } = this.state;
     const { user } = this.props;
 
