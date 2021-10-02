@@ -8,7 +8,6 @@ import Customers from './components/customers';
 import Rentals from './components/rentals';
 import NotFound from './components/notFound';
 import Login from './components/login';
-import LoginFunc from './components/loginFunc';
 import Logout from './components/logout';
 import Register from './components/register';
 import MovieForm from './components/movieForm';
