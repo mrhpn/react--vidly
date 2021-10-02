@@ -12,6 +12,7 @@ import LoginFunc from './components/loginFunc';
 import Logout from './components/logout';
 import Register from './components/register';
 import MovieForm from './components/movieForm';
+import ProtectedRoute from './components/common/ProtectedRoute';
 import auth from './services/auth';
 
 import './App.css';
@@ -38,13 +39,7 @@ class App extends Component {
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
             {/* <Route path="/login" component={LoginFunc} /> */}
-            <Route
-              path="/movies/:id"
-              render={(props) => {
-                if (!user) return <Redirect to="/login" />;
-                return <MovieForm {...props} />;
-              }}
-            />
+            <ProtectedRoute path="/movies/:id" component={MovieForm} />
             <Route path="/movies" render={(props) => <Movies {...props} user={user} />} />
             <Route path="/customers" component={Customers} />
             <Route path="/rentals" component={Rentals} />
