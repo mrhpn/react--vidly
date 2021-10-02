@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import _ from 'lodash';
+import { toast } from 'react-toastify';
 
 import MoviesTable from './MoviesTable';
 import Pagination from './common/Pagination';
 import ListGroup from './common/ListGroup';
 import SearchBox from './common/SearchBox';
 import { paginate } from '../util/paginate';
-import { getMovies, filterMovies } from '../services/fakeMovieService';
-import { genres } from '../services/fakeGenreService';
+import { getMovies, deleteMovie } from '../services/movieService';
+import { getGenres } from '../services/genreService';
 
 class Movies extends React.Component {
   state = {
@@ -21,14 +22,25 @@ class Movies extends React.Component {
     searchQuery: '',
   };
 
-  componentDidMount() {
-    const g = [{ _id: '', name: 'All Genres' }, ...genres];
-    this.setState({ movies: getMovies(), genres: g });
+  async componentDidMount() {
+    const { data } = await getGenres();
+    const g = [{ _id: '', name: 'All Genres' }, ...data];
+
+    const { data: movies } = await getMovies();
+    this.setState({ movies, genres: g });
   }
 
-  handleDelete = (movie) => {
-    let movies = this.state.movies.filter((m) => m._id !== movie._id);
+  handleDelete = async (movie) => {
+    const originalMovies = this.state.movies;
+    let movies = originalMovies.filter((m) => m._id !== movie._id);
     this.setState({ movies });
+
+    try {
+      await deleteMovie(movie._id);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404) toast.error('This movies cannot be found.');
+      this.setState({ movies: originalMovies });
+    }
   };
 
   handleLike = (movie) => {
