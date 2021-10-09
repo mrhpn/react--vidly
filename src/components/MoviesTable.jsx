@@ -28,7 +28,7 @@ const MoviesTable = ({ movies, sortColumn, onLike, onDelete, onSort }) => {
       cols.push(deleteButton);
       setColumns(cols);
     }
-  }, [user, columns, onDelete]);
+  }, []);
 
   return <Table data={movies} columns={columns} sortColumn={sortColumn} onSort={onSort} />;
 };
