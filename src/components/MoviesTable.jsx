@@ -28,7 +28,9 @@ const MoviesTable = ({ movies, sortColumn, onLike, onDelete, onSort }) => {
       cols.push(deleteButton);
       setColumns(cols);
     }
-  });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return <Table data={movies} columns={columns} sortColumn={sortColumn} onSort={onSort} />;
 };
