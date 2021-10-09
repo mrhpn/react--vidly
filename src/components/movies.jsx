@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
+import { Skeleton } from 'antd';
 
 import MoviesTable from './MoviesTable';
 import Pagination from './common/Pagination';
@@ -97,7 +98,7 @@ class Movies extends Component {
   };
 
   render() {
-    const { sortColumn, selectedGenre, searchQuery, pageSize, currentPage } = this.state;
+    const { genres, sortColumn, selectedGenre, searchQuery, pageSize, currentPage } = this.state;
     const { user } = this.props;
 
     // if (count === 0) return <p>There are no movies in the database.</p>;
@@ -107,11 +108,11 @@ class Movies extends Component {
     return (
       <div className="row">
         <div className="col-3">
-          <ListGroup
-            items={this.state.genres}
-            selected={selectedGenre}
-            onSelect={this.handleGenreSelect}
-          />
+          {genres.length === 0 ? (
+            <Skeleton loading round />
+          ) : (
+            <ListGroup items={genres} selected={selectedGenre} onSelect={this.handleGenreSelect} />
+          )}
         </div>
         <div className="col-9">
           {user && (
@@ -121,19 +122,26 @@ class Movies extends Component {
           )}
           <p>Showing {totalCount} movies in the database.</p>
           <SearchBox value={searchQuery} onChange={this.handleSearch} />
-          <MoviesTable
-            movies={movies}
-            sortColumn={sortColumn}
-            onLike={this.handleLike}
-            onDelete={this.handleDelete}
-            onSort={this.handleSort}
-          />
-          <Pagination
-            pageSize={pageSize}
-            itemsCount={totalCount}
-            currentPage={currentPage}
-            onPageChange={this.handlePageChange}
-          />
+
+          {movies.length === 0 ? (
+            <Skeleton loading round />
+          ) : (
+            <>
+              <MoviesTable
+                movies={movies}
+                sortColumn={sortColumn}
+                onLike={this.handleLike}
+                onDelete={this.handleDelete}
+                onSort={this.handleSort}
+              />
+              <Pagination
+                pageSize={pageSize}
+                itemsCount={totalCount}
+                currentPage={currentPage}
+                onPageChange={this.handlePageChange}
+              />
+            </>
+          )}
         </div>
       </div>
     );
