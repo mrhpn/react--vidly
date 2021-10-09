@@ -1,5 +1,7 @@
 import React from 'react';
 import Joi from 'joi-browser';
+import { Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 import Form from './common/form';
 import { getMovie, saveMovie } from '../services/movieService';
@@ -10,7 +12,7 @@ class MovieForm extends Form {
     data: { title: '', genreId: '', numberInStock: '', dailyRentalRate: '' },
     genres: [],
     errors: {},
-    formTitle: 'New Movie',
+    formTitle: '...',
     loadingData: false,
   };
 
@@ -30,7 +32,10 @@ class MovieForm extends Form {
   async populateMovie() {
     try {
       const id = this.props.match.params.id;
-      if (id === 'new') return;
+      if (id === 'new') {
+        this.setState({ formTitle: 'New Movie' });
+        return;
+      }
 
       this.setState({ formTitle: 'Update Movie', loadingData: true });
       const movieId = id;
@@ -44,8 +49,8 @@ class MovieForm extends Form {
   }
 
   async componentDidMount() {
-    await this.populateGenres();
     await this.populateMovie();
+    await this.populateGenres();
   }
 
   mapToViewModel = (movie) => {
@@ -68,7 +73,10 @@ class MovieForm extends Form {
 
     return (
       <div className="container">
-        <h1>{formTitle}</h1>
+        <h1 className="inline">
+          {formTitle}{' '}
+          {loadingData && <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />}
+        </h1>
         <form onSubmit={this.handleSubmit} className="mt-4">
           {this.renderInput('title', 'Title', 'text', loadingData)}
           {this.renderSelect('genreId', 'Genre', genres, loadingData)}
