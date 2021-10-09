@@ -1,13 +1,12 @@
 import React from 'react';
 
-const Select = ({ name, label, options, error, ...rest }) => {
-  console.log(options);
+const Select = ({ name, label, options, error, disabled, ...rest }) => {
   return (
     <div className="mb-3">
       <label htmlFor={name} className="form-label">
         {label}
       </label>
-      <select name={name} id={label} {...rest} className="form-control">
+      <select name={name} id={label} disabled={disabled} {...rest} className="form-control">
         <option disabled value="">
           Choose
         </option>

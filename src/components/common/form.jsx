@@ -15,8 +15,6 @@ class Form extends React.Component {
     const { error } = Joi.validate(this.state.data, this.schema, options);
     if (!error) return null;
 
-    console.log(error, 'banana--');
-
     const errors = {};
     for (let e of error.details) errors[e.path[0]] = e.message;
     return errors;
@@ -49,7 +47,7 @@ class Form extends React.Component {
     this.doSubmit();
   };
 
-  renderInput(name, label, type = 'text') {
+  renderInput(name, label, type = 'text', disabled = false) {
     const { data, errors } = this.state;
 
     return (
@@ -58,13 +56,14 @@ class Form extends React.Component {
         value={data[name]}
         label={label}
         type={type}
+        disabled={disabled}
         error={errors[name]}
         onChange={this.handleChange}
       />
     );
   }
 
-  renderSelect(name, label, options) {
+  renderSelect(name, label, options, disabled = false) {
     const { data, errors } = this.state;
 
     return (
@@ -73,15 +72,16 @@ class Form extends React.Component {
         value={data[name]}
         label={label}
         options={options}
+        disabled={disabled}
         error={errors[name]}
         onChange={this.handleChange}
       />
     );
   }
 
-  renderButton(label) {
+  renderButton(label, disabled = false) {
     return (
-      <button disabled={this.validate()} type="submit" className="btn btn-primary">
+      <button disabled={disabled || this.validate()} type="submit" className="btn btn-primary">
         {label}
       </button>
     );

@@ -10,6 +10,8 @@ class MovieForm extends Form {
     data: { title: '', genreId: '', numberInStock: '', dailyRentalRate: '' },
     genres: [],
     errors: {},
+    formTitle: 'New Movie',
+    loadingData: false,
   };
 
   schema = {
@@ -30,9 +32,11 @@ class MovieForm extends Form {
       const id = this.props.match.params.id;
       if (id === 'new') return;
 
+      this.setState({ formTitle: 'Update Movie', loadingData: true });
       const movieId = id;
       const { data: movie } = await getMovie(movieId);
       this.setState({ data: this.mapToViewModel(movie) });
+      this.setState({ loadingData: false });
     } catch (ex) {
       if (ex.response && ex.response.status === 404)
         return this.props.history.replace('/not-found');
@@ -60,15 +64,17 @@ class MovieForm extends Form {
   };
 
   render() {
+    const { formTitle, loadingData, genres } = this.state;
+
     return (
       <div className="container">
-        <h1>New Movie</h1>
+        <h1>{formTitle}</h1>
         <form onSubmit={this.handleSubmit} className="mt-4">
-          {this.renderInput('title', 'Title')}
-          {this.renderSelect('genreId', 'Genre', this.state.genres)}
-          {this.renderInput('numberInStock', 'Number In Stock', 'number')}
-          {this.renderInput('dailyRentalRate', 'Daily Rental Rate', 'number')}
-          {this.renderButton('Save')}
+          {this.renderInput('title', 'Title', 'text', loadingData)}
+          {this.renderSelect('genreId', 'Genre', genres, loadingData)}
+          {this.renderInput('numberInStock', 'Number In Stock', 'number', loadingData)}
+          {this.renderInput('dailyRentalRate', 'Daily Rental Rate', 'number', loadingData)}
+          {this.renderButton('Save', loadingData)}
         </form>
       </div>
     );
