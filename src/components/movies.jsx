@@ -109,7 +109,7 @@ class Movies extends Component {
       <div className="row">
         <div className="col-3">
           {genres.length === 0 ? (
-            <Skeleton loading round />
+            <Skeleton active loading round />
           ) : (
             <ListGroup items={genres} selected={selectedGenre} onSelect={this.handleGenreSelect} />
           )}
@@ -124,7 +124,7 @@ class Movies extends Component {
           <SearchBox value={searchQuery} onChange={this.handleSearch} />
 
           {movies.length === 0 ? (
-            <Skeleton loading round />
+            <Skeleton active loading round />
           ) : (
             <>
               <MoviesTable
